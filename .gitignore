@@ -183,3 +183,9 @@ fabric.properties
 
 # idea folder, uncomment if you don't need it
 .idea
+
+# Oauth JSON
+client_secret.json
+
+# Pickle files
+*.pickle
