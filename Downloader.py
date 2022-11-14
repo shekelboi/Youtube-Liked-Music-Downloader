@@ -2,6 +2,7 @@
 
 import os
 import pickle
+
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
@@ -21,10 +22,40 @@ if not credentials or not credentials.valid:
         with open(pickle_token_file, "rb") as token:
             credentials = pickle.load(token)
     else:
-        flow = InstalledAppFlow.from_client_secrets_file("client_secret.json", scopes=["https://www.googleapis.com/auth/youtube.readonly"])
+        flow = InstalledAppFlow.from_client_secrets_file("client_secret.json",
+                                                         scopes=["https://www.googleapis.com/auth/youtube.readonly"])
         flow.run_local_server(port=8080, prompt="consent", authorization_prompt_message="")
         credentials = flow.credentials
 
         with open(pickle_token_file, "wb") as token:
             print("Saving the credentials in a pickle file")
             pickle.dump(credentials, token)
+
+youtube = build("youtube", "v3", credentials=credentials)
+
+request = youtube.videos().list(
+    part="snippet",
+    maxResults=10,
+    myRating="like"
+)
+
+response = request.execute()
+file = open("list.txt", "w")
+
+while True:
+    for item in response["items"]:
+        snippet = item["snippet"]
+        print(f'{snippet["title"]}: {item["id"]}')
+        if snippet["categoryId"] == "10":  # Music videos
+            file.write(f'{item["id"]}\n')
+    if "nextPageToken" not in response.keys():
+        break
+    request = youtube.videos().list(
+        part="snippet",
+        maxResults=10,
+        myRating="like",
+        pageToken=response["nextPageToken"]
+    )
+    response = request.execute()
+
+file.close()

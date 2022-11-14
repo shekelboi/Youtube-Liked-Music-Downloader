@@ -189,3 +189,6 @@ client_secret.json
 
 # Pickle files
 *.pickle
+
+# List of video IDs
+list.txt
