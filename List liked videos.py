@@ -6,9 +6,16 @@ import pickle
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
+import configparser
+
+app_name = 'VideoLister'
+
+config = configparser.ConfigParser()
+config.read('config.ini')
+config = config
 
 credentials = None
-pickle_token_file = "token.pickle"
+pickle_token_file = config[app_name]['token_path']
 
 if os.path.exists(pickle_token_file):
     print("Loading credentials from a pickle file")
@@ -35,12 +42,12 @@ youtube = build("youtube", "v3", credentials=credentials)
 
 request = youtube.videos().list(
     part="snippet",
-    maxResults=10,
+    maxResults=50,
     myRating="like"
 )
 
 response = request.execute()
-file = open("list.txt", "w")
+file = open(config[app_name]['list_path'], "w")
 
 while True:
     for item in response["items"]:
@@ -52,7 +59,7 @@ while True:
         break
     request = youtube.videos().list(
         part="snippet",
-        maxResults=10,
+        maxResults=50,
         myRating="like",
         pageToken=response["nextPageToken"]
     )
