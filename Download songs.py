@@ -7,7 +7,6 @@ video_lister = 'VideoLister'
 
 config = configparser.ConfigParser()
 config.read('config.ini')
-config = config
 
 # Specify yt-dlp location here if it's not added to the PATH
 YT_DLP_LOCATION = "yt-dlp"

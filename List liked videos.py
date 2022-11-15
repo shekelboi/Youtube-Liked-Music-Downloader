@@ -12,7 +12,6 @@ app_name = 'VideoLister'
 
 config = configparser.ConfigParser()
 config.read('config.ini')
-config = config
 
 credentials = None
 pickle_token_file = config[app_name]['token_path']
