@@ -192,3 +192,6 @@ client_secret.json
 
 # List of video IDs
 list.txt
+
+# Downloaded songs
+Downloaded songs/
