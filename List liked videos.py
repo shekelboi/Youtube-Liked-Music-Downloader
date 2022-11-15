@@ -28,7 +28,7 @@ if not credentials or not credentials.valid:
         with open(pickle_token_file, "rb") as token:
             credentials = pickle.load(token)
     else:
-        flow = InstalledAppFlow.from_client_secrets_file("client_secret.json",
+        flow = InstalledAppFlow.from_client_secrets_file(config[app_name]['client_secret_path'],
                                                          scopes=["https://www.googleapis.com/auth/youtube.readonly"])
         flow.run_local_server(port=8080, prompt="consent", authorization_prompt_message="")
         credentials = flow.credentials

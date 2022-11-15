@@ -10,9 +10,8 @@ config.read('config.ini')
 
 # Specify adb location here if it's not added to the PATH
 ADB_LOCATION = "adb"
-if which("adb") is None:
+if which(ADB_LOCATION) is None:
     ADB_LOCATION = config[app_name]['adb_path']
 
-MUSIC_FOLDER = '"/storage/1F18-0B63/Music/Youtube Music"'
-
-os.system(f"{ADB_LOCATION} push ")
+cmd = f"{ADB_LOCATION} push \"{config[app_name]['source_path']}\" \"{config[app_name]['target_path']}\""
+os.system(cmd)
