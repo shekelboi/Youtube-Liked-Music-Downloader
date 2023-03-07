@@ -39,10 +39,10 @@ if not credentials or not credentials.valid:
 
 youtube = build("youtube", "v3", credentials=credentials)
 
-request = youtube.videos().list(
+request = youtube.playlistItems().list(
     part="snippet",
-    maxResults=50,
-    myRating="like"
+    playlistId=config[app_name]['playlist_id'],
+    maxResults=50
 )
 
 response = request.execute()
@@ -52,14 +52,14 @@ while True:
     for item in response["items"]:
         snippet = item["snippet"]
         print(f'{snippet["title"]}: {item["id"]}')
-        if snippet["categoryId"] == "10":  # Music videos
-            file.write(f'{item["id"]}\n')
+        # if snippet["categoryId"] == "10":  # Music videos
+        #     file.write(f'{item["id"]}\n')
     if "nextPageToken" not in response.keys():
         break
-    request = youtube.videos().list(
+    request = youtube.playlistItems().list(
         part="snippet",
+        playlistId=config[app_name]['playlist_id'],
         maxResults=50,
-        myRating="like",
         pageToken=response["nextPageToken"]
     )
     response = request.execute()
