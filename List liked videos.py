@@ -53,7 +53,7 @@ file = open(config[app_name]['list_path'], "w")
 while True:
     for item in response["items"]:
         snippet = item["snippet"]
-        print(f'{snippet["title"]}: {item["id"]}')
+        print(f'{snippet["title"]}: {snippet["resourceId"]["videoId"]}')
         # if snippet["categoryId"] == "10":  # Music videos
         #     file.write(f'{item["id"]}\n')
     if "nextPageToken" not in response.keys():
