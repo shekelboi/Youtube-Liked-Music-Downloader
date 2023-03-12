@@ -49,12 +49,16 @@ response = request.execute()
 file = open(config[app_name]['list_path'], "w")
 
 while True:
+    last_video_reached = False
     for item in response["items"]:
         snippet = item["snippet"]
+        print(config[app_name]['last_video_id'])
+        if config[app_name]['last_video_id'] == snippet["resourceId"]["videoId"]:
+            last_video_reached = True
+            break
         print(f'{snippet["title"]}: {snippet["resourceId"]["videoId"]}')
-        # if snippet["categoryId"] == "10":  # Music videos
-        #     file.write(f'{item["id"]}\n')
-    if "nextPageToken" not in response.keys():
+        file.write(f'{snippet["resourceId"]["videoId"]}\n')
+    if "nextPageToken" not in response.keys() or last_video_reached:
         break
     request = youtube.playlistItems().list(
         part="snippet",
