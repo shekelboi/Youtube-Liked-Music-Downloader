@@ -21,8 +21,6 @@ if os.path.exists(pickle_token_file):
     with open(pickle_token_file, "rb") as token:
         credentials = pickle.load(token)
 
-# TODO: update according to this using the playlistitems.list command:
-# https://developers.google.com/youtube/v3/docs/playlistItems/list?apix_params=%7B%22part%22%3A%5B%22snippet%22%5D%2C%22maxResults%22%3A50%2C%22playlistId%22%3A%22LM%22%7D
 if not credentials or not credentials.valid:
     if credentials and credentials.expired and credentials.refresh_token:
         print("Refreshing access token")
