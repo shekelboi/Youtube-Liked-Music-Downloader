@@ -52,7 +52,6 @@ while True:
     last_video_reached = False
     for item in response["items"]:
         snippet = item["snippet"]
-        print(config[app_name]['last_video_id'])
         if config[app_name]['last_video_id'] == snippet["resourceId"]["videoId"]:
             last_video_reached = True
             break
